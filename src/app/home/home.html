@@ -24,12 +24,18 @@
             
         </div>
         <div class="row my-3">
-            <div class="col-lg-4">
-                <img src="https://www.pngall.com/wp-content/uploads/2/Healthy-Meal.png" class="w-75" alt="">
-                <div class="card-body">
-                    <h5 class="card-title">name</h5>
+            <!-- duplicated recipes -->
+             @for (recipe of allRecipes(); track $index) {
+                <div class="col-lg-4">
+                    <div class="p-3">
+                        <img [src]="recipe.image" class="w-75" alt="recipe" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            <h5 class="card-title">{{recipe.name}}</h5>
+                        </div>
+                    </div>
                 </div>
-            </div>
+             }
+            
         </div>
      </div>
     <!-- banner -->

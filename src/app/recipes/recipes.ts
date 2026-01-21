@@ -1,11 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { Header } from '../header/header';
+import { Footer } from '../footer/footer';
+import { ApiServices } from '../services/api-services';
 
 @Component({
   selector: 'app-recipes',
-  imports: [],
+  imports: [Header,Footer],
   templateUrl: './recipes.html',
   styleUrl: './recipes.css',
 })
 export class Recipes {
+  mealTypeArray:any = signal([])
+  cuisineArray:any = signal([])
+  allRecipes:any = signal([])
+  dummyAllRecipe:any = []
+  api = inject(ApiServices)
 
+  ngOnInit(){
+    this.getAllRecipes()
+  }
+
+  getAllRecipes(){
+    this.api.getAllRecipesAPI().subscribe((res:any)=>{
+      this.allRecipes.set(res)
+      this.dummyAllRecipe = res
+      let dummyCuisineArray = res.map((item:any)=>item.cuisine)
+      dummyCuisineArray.forEach((cuisine:any)=>{
+        !this.cuisineArray().includes(cuisine) && this.cuisineArray().push(cuisine)
+      })
+      console.log(this.cuisineArray());
+      let dummyMealArray = res.map((item:any)=>item.mealType).flat(Infinity)
+      dummyMealArray.forEach((mealType:any)=>{
+        !this.mealTypeArray().includes(mealType) && this.mealTypeArray().push(mealType)
+      })
+      console.log(this.mealTypeArray());
+      
+    })
+  }
+
+  filterRecipe(key:string,value:string){
+    this.allRecipes.set(this.dummyAllRecipe.filter((item:any)=>item[key]==value))
+  }
 }
