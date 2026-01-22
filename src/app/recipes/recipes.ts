@@ -2,14 +2,19 @@ import { Component, inject, signal } from '@angular/core';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 import { ApiServices } from '../services/api-services';
+import { SearchPipe } from '../pipes/search-pipe';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-recipes',
-  imports: [Header,Footer],
+  imports: [Header,Footer,SearchPipe,FormsModule,NgxPaginationModule],
   templateUrl: './recipes.html',
   styleUrl: './recipes.css',
 })
 export class Recipes {
+  p: number = 1;
+  searchKey:string = ""
   mealTypeArray:any = signal([])
   cuisineArray:any = signal([])
   allRecipes:any = signal([])

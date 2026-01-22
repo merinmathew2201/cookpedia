@@ -12,5 +12,10 @@ export class ApiServices {
   getAllRecipesAPI(){
     return this.http.get(`${this.server_url}/recipes/all`)
   }
+
+  //register - called by register whe
+  registerAPI(user:any){
+    return this.http.post(`${this.server_url}/register`,user)
+  }
   
 }
