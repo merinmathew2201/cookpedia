@@ -13,9 +13,21 @@ export class ApiServices {
     return this.http.get(`${this.server_url}/recipes/all`)
   }
 
-  //register - called by register whe
+  //register - called by register when register btn clicked
   registerAPI(user:any){
     return this.http.post(`${this.server_url}/register`,user)
   }
+
+  //login - called by login when login btn clicked
+  loginAPI(user:any){
+    return this.http.post(`${this.server_url}/login`,user)
+  }
+
+  //view recipe - called by login when login btn clicked
+  viewRecipeAPI(recipeId:string){
+    return this.http.get(`${this.server_url}/recipe/${recipeId}`)
+  }
+
+
   
 }
