@@ -1,1 +1,69 @@
-<p>view-recipe {{recipeId}} works!</p>
+<app-header></app-header>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <a routerLink="/recipes" >Back To Recipe List</a>
+            <div><img  [src]="recipe().image" class="img-fluid my-3" alt="recipe"></div>
+            <div class="d-flex justify-content-between align-items-center ">
+                <button class="btn btn-success">Download Recipe</button>
+                <button class="btn btn-primary">Save Recipe</button>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h1>{{recipe().name}}</h1>
+            <div class="d-flex justify-content-between align-items-center my-5">
+                <h5 class="fw-bold">Cuisine : {{recipe().cuisine}}</h5>
+                <h5 class="fw-bold">Servings : {{recipe().servings}}</h5>
+                <h5 class="fw-bold">Mode of Cooking : {{recipe().difficulty}}</h5>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-5 px-5 text-md-center">
+                <div>
+                    <img width="60px" src="https://t4.ftcdn.net/jpg/11/76/23/25/360_F_1176232596_UrIhehn0IKq8KMDXlvunveEEe2BsENzB.jpg" alt="">
+                    <h6 class="fw-bold my-3">Preparation Time</h6>
+                    <p> <span class="text-danger me-2">{{recipe().prepTimeMinutes}}</span>Minutes</p>
+                </div>
+                <div>
+                    <h6 class="fw-bold my-3">Cooking Time</h6>
+                    <p> <span class="text-danger me-2">{{recipe().cookTimeMinutes}}</span>Minutes</p>
+                </div>
+                <div>
+                    <img width="70px" src="https://cdn-icons-png.flaticon.com/256/15398/15398329.png" alt="">
+                    <h6 class="fw-bold my-3">Calorie per Servings</h6>
+                    <p> <span class="text-danger me-2">{{recipe().caloriesPerServing}}</span>Minutes</p>
+                </div>
+            </div>
+            <h3>Ingredients needed</h3>
+            <ol>
+                @for (item of recipe().ingredients; track $index) {
+                    <li>{{item}}</li>
+                }
+            </ol>
+            
+            
+            <h3>Cooking Instruction</h3>
+            <ol>
+                @for (item of recipe().instructions; track $index) {
+                    <li>{{item}}</li>
+                }
+                
+            </ol>
+
+        </div>
+    </div>
+    @if (allRelatedRecipes().length>0) {
+        <h1 class="my-5">All Related Recipes</h1>
+        <div class="row">
+            @for (item of allRelatedRecipes(); track $index) {
+                <div class="col-lg-2">
+                    <div (click)="viewRelatedRecipe(item._id)" class="p-3">
+                        <img width="160px" [src]="item.image" alt="">
+                        <h5>{{item.name}}</h5>
+                    </div>
+                </div>
+            }
+            
+        </div>
+    }
+    
+</div>
+<app-footer></app-footer>
