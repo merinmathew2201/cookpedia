@@ -3,6 +3,8 @@ import { ApiServices } from '../services/api-services';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
+import { jsPDF } from 'jspdf'
+import { autoTable } from 'jspdf-autotable'
 
 @Component({
   selector: 'app-view-recipe',
@@ -48,6 +50,32 @@ export class ViewRecipe {
     this.router.navigateByUrl(`recipes/${id}/view`)
   }
 
+  downloadRecipe(){
+    this.api.downloadRecipeAPI(this.recipeId,{name:this.recipe().name,cuisine:this.recipe().cuisine,image:this.recipe().image}).subscribe((res:any)=>{
+      console.log(res);
+      // generate pdf
+      this.generatePDF()
+    })
+  }
+  
+  generatePDF(){
+    const pdf = new jsPDF()
+    let headRow = ['Name','Cuisine','Ingredients','Instruction','Calories','Servings']
+    let contentRow = [this.recipe().name,this.recipe().cuisine,this.recipe().ingredients,this.recipe().instructions,this.recipe().caloriesPerServing,this.recipe().servings]
+    autoTable(pdf,{
+      head:[headRow],
+      body:[contentRow]
+    })
+    pdf.save(`${this.recipe().name}.pdf`)
+  }
 
-
+  saveRecipe(){
+    this.api.saveRecipeAPI(this.recipeId,{name:this.recipe().name,image:this.recipe().image}).subscribe({
+      next:(res:any)=>{
+        alert( `${this.recipe().name} Added to your Collection`)
+      },error:(reason:any)=>{
+        alert(reason.error)
+      }
+    })
+  }
 }
