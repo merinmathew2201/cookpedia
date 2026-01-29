@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './save-recipe.css',
 })
 export class SaveRecipe {
+  
   allRecipes:any = signal([])
   api = inject(ApiServices)
 
@@ -23,6 +24,12 @@ export class SaveRecipe {
       this.allRecipes.set(res)
       console.log(this.allRecipes());
       
+    })
+  }
+
+  removeRecipe(id:string){
+    this.api.removeUserSavedRecipeAPI(id).subscribe((res:any)=>{
+      this.getSaveCollection()
     })
   }
 }
