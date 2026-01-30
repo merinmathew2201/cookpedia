@@ -64,4 +64,8 @@ export class ApiServices {
     return this.http.delete(`${this.server_url}/save-recipes/${id}`,this.appendToken())
   } 
 
+  addFeedbackAPI(reqBody:any){
+    return this.http.post(`${this.server_url}/feedback`,reqBody)
+  } 
+
 }
