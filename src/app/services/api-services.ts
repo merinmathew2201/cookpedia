@@ -64,8 +64,23 @@ export class ApiServices {
     return this.http.delete(`${this.server_url}/save-recipes/${id}`,this.appendToken())
   } 
 
+  // /feedback by contact page
   addFeedbackAPI(reqBody:any){
     return this.http.post(`${this.server_url}/feedback`,reqBody)
   } 
 
+  // /approve-feedbacks:get request by home component when page loads
+  getApproveFeedbackAPI(){
+    return this.http.get(`${this.server_url}/approve-feedbacks`)
+  }
+
+  // /user/:id : put req by profile component when picture uploaded
+  updateUserProfileAPI(id:string,reqBody:any){
+    return this.http.put(`${this.server_url}/user/${id}`,reqBody,this.appendToken())
+  } 
+
+  // /user-downloads:get request when profile page loads
+  getUserDownloadRecipeAPI(){
+    return this.http.get(`${this.server_url}/user-downloads`,this.appendToken())
+  } 
 }

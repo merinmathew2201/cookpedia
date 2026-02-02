@@ -1,1 +1,31 @@
-<p>profile works!</p>
+<app-header></app-header>
+<div class="container">
+    <div style="height: 200px;" class="row bg-success"></div>
+    <div style="width: 220px;height: 220px;border-radius: 50%; margin-top: -110px;" class="p-2 border">
+        <img width="200px" height="200px" style="border-radius: 50%;" [src]="imgURL()" alt="">
+    </div>
+    <label for="upload" class="mb-5">
+        <span style="margin-top: -50px; margin-left: 110px;" class="btn bg-success text-white"><i class="fa-solid fa-upload"></i></span>
+        <input (change)="uploadPicture($event)" type="file" id="upload" accept="image/*" hidden>
+    </label>
+    <div class="my-5 d-flex align-items-center">
+        <h1>{{username}}</h1>
+        <i class="fa-solid fa-check-circle text-primary fa-2x ms-2"></i>
+    </div>
+    <h5 style="text-align: justify;">🍲 Food is my happy place. I love exploring new recipes, experimenting with flavors, and turning simple ingredients into comforting, delicious meals. Cooking allows me to express creativity while bringing warmth and joy to everyday life.</h5>
+
+    <h5>🌍 Cookpedia is where I grow and share that passion. From discovering inspiring recipes to learning smart cooking tips, this platform helps me cook with confidence. I enjoy being part of a food-loving community where every dish tells a story and every meal is made with love ❤️</h5>
+    <h3 class="my-5">Recipe Download List</h3>
+    <div class="row">
+            @for (item of downloadList(); track $index) {
+                <div class="col-lg-2">
+                    <div routerLink="/recipes/{{item.recipeId}}/view" class="p-3">
+                        <img width="160px" [src]="item.image" alt="">
+                        <h5>{{item.name}}</h5>
+                    </div>
+                </div>
+            }
+            
+        </div>
+</div>
+<app-footer></app-footer>
