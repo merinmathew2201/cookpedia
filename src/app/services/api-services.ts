@@ -83,4 +83,9 @@ export class ApiServices {
   getUserDownloadRecipeAPI(){
     return this.http.get(`${this.server_url}/user-downloads`,this.appendToken())
   } 
+
+  // /downloads:get request when admin download page loads
+  getAllDownloadRecipeAPI(){
+    return this.http.get(`${this.server_url}/downloads`,this.appendToken())
+  } 
 }
