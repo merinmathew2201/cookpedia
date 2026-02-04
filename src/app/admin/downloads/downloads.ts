@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ApiServices } from '../../services/api-services';
 
 @Component({
@@ -9,5 +9,17 @@ import { ApiServices } from '../../services/api-services';
 })
 export class Downloads {
   
+  downloadList:any = signal([])
   api = inject(ApiServices)
+
+  ngOnInit(){
+    this.getDownloads()
+  }
+
+  getDownloads(){
+    this.api.getAllDownloadRecipeAPI().subscribe((res:any)=>{
+      this.downloadList.set(res)
+      console.log(this.downloadList());
+    })
+  }
 }

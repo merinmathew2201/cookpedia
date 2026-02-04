@@ -33,7 +33,12 @@ export class Login {
           sessionStorage.setItem("user",JSON.stringify(res.user))
           this.loginForm.reset()
           alert("User Login Successfull!!!!")
-          this.router.navigateByUrl('/')
+          if(res.user.role=="user"){
+            this.router.navigateByUrl('/')
+          }else{
+            this.router.navigateByUrl('/admin')
+          }
+          
         }),
         error:((reason:any)=>{
           alert(reason.error)

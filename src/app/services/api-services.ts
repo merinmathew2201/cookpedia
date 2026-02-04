@@ -88,4 +88,24 @@ export class ApiServices {
   getAllDownloadRecipeAPI(){
     return this.http.get(`${this.server_url}/downloads`,this.appendToken())
   } 
+
+  // /users:get request when admin users list page loads
+  getAllUsersAPI(){
+    return this.http.get(`${this.server_url}/users`,this.appendToken())
+  } 
+
+  // /all-feedbacks:get request when admin users list page loads
+  getAllFeedbacksAPI(){
+    return this.http.get(`${this.server_url}/all-feedbacks`,this.appendToken())
+  } 
+
+  // /feedbacks/:id:get request when admin users list page loads
+  updateFeedbackAPI(id:string,reqBody:any){
+    return this.http.put(`${this.server_url}/feedbacks/${id}`,reqBody,this.appendToken())
+  } 
+
+  // /recipes:post request when admin add recicoe page loads
+  addRecipeAPI(reqBody:any){
+    return this.http.post(`${this.server_url}/recipes`,reqBody,this.appendToken())
+  } 
 }
