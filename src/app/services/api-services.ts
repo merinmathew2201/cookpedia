@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { RecipeModel } from '../admin/models/recipeModel';
 
 @Injectable({
   providedIn: 'root',
@@ -105,7 +106,12 @@ export class ApiServices {
   } 
 
   // /recipes:post request when admin add recicoe page loads
-  addRecipeAPI(reqBody:any){
+  addRecipeAPI(reqBody:RecipeModel){
     return this.http.post(`${this.server_url}/recipes`,reqBody,this.appendToken())
+  } 
+
+  // /recipes:put request when admin add recicoe page loads
+  updateRecipeAPI(recipeId:string,reqBody:RecipeModel){
+    return this.http.put(`${this.server_url}/recipes/${recipeId}`,reqBody,this.appendToken())
   } 
 }

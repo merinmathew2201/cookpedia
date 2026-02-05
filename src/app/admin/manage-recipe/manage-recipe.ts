@@ -1,5 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RecipeModel } from '../models/recipeModel';
+import { ApiServices } from '../../services/api-services';
 
 @Component({
   selector: 'app-manage-recipe',
@@ -8,8 +10,92 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './manage-recipe.css',
 })
 export class ManageRecipe {
-  
+
+  router = inject(Router)
+  api = inject(ApiServices)
   route = inject(ActivatedRoute)
   recipeId = this.route.snapshot.params['id']
+  recipeDetails = signal<RecipeModel>({})
+  ingredientArray:any = []
+  instructionArray:any = []
+  mealTypeArray:any = []
 
+  ngOnInit(){
+    if(this.recipeId){
+      this.api.getAllRecipesAPI().subscribe((res:any)=>{
+        this.recipeDetails.set(res.find((item:any)=>item._id==this.recipeId))
+        this.ingredientArray = this.recipeDetails().ingredients
+        this.instructionArray = this.recipeDetails().instructions
+        this.mealTypeArray = this.recipeDetails().mealType
+      })
+    }
+  }
+
+  addIngredient(ingredientInput:HTMLTextAreaElement){
+    if(ingredientInput.value){
+      this.ingredientArray.push(ingredientInput.value)
+      ingredientInput.value=""
+    }
+  }
+
+  removeIngredient(value:string){
+    this.ingredientArray = this.ingredientArray.filter((item:string)=>item!=value)
+  }
+
+  addInstruction(instructionInput:HTMLTextAreaElement){
+    if(instructionInput.value){
+      this.instructionArray.push(instructionInput.value)
+      instructionInput.value=""
+    }
+  }
+
+  removeInstruction(value:string){
+    this.instructionArray = this.instructionArray.filter((item:string)=>item!=value)
+  }
+
+  addMealType(mealTypeInput:HTMLInputElement){
+    if(mealTypeInput.value){
+      this.mealTypeArray.push(mealTypeInput.value)
+      mealTypeInput.value=""
+    }
+  }
+
+  removemealType(value:string){
+    this.mealTypeArray = this.mealTypeArray.filter((item:string)=>item!=value)
+  }
+
+  addRecipe(){
+    this.recipeDetails().ingredients = this.ingredientArray
+    this.recipeDetails().instructions = this.instructionArray
+    this.recipeDetails().mealType = this.mealTypeArray
+    const {name,ingredients,instructions,prepTimeMinutes,cookTimeMinutes,servings,difficulty,cuisine,caloriesPerServing,image,mealType} = this.recipeDetails()
+    if(name && ingredients && instructions && prepTimeMinutes && cookTimeMinutes && servings && difficulty && cuisine && caloriesPerServing && image && mealType){
+      this.api.addRecipeAPI(this.recipeDetails()).subscribe({
+        next:(res:any)=>{
+          alert("Recipe Added Successfully!!!")
+          this.router.navigateByUrl('/admin/recipes')
+        },
+        error:(reason:any)=>{
+          alert(reason.error)
+        }
+      })
+    }else{
+      alert("Fill The Form Completely...")
+    }
+  }
+
+  updateRecipe(){
+    this.recipeDetails().ingredients = this.ingredientArray
+    this.recipeDetails().instructions = this.instructionArray
+    this.recipeDetails().mealType = this.mealTypeArray
+    const {name,ingredients,instructions,prepTimeMinutes,cookTimeMinutes,servings,difficulty,cuisine,caloriesPerServing,image,mealType} = this.recipeDetails()
+    if(name && ingredients && instructions && prepTimeMinutes && cookTimeMinutes && servings && difficulty && cuisine && caloriesPerServing && image && mealType){
+      this.api.updateRecipeAPI(this.recipeId,this.recipeDetails()).subscribe((res:any)=>{
+        alert("Recipe Updated Successfully!!!")
+        this.router.navigateByUrl('/admin/recipes')
+      })
+    }else{
+      alert("Fill The Form Completely...")
+    }
+  }
 }
