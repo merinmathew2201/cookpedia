@@ -22,4 +22,11 @@ export class Recipes {
       this.allRecipe.set(res)
     })
   }
+
+  removeRecipe(recipeId:string){
+    this.api.removeRecipeAPI(recipeId).subscribe((res:any)=>{
+      alert("Recipe Removed....")
+      this.getAllRecipes()
+    })
+  }
 }

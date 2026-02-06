@@ -110,8 +110,13 @@ export class ApiServices {
     return this.http.post(`${this.server_url}/recipes`,reqBody,this.appendToken())
   } 
 
-  // /recipes:put request when admin add recicoe page loads
+  // /recipes:put request when admin edit recicoe page loads
   updateRecipeAPI(recipeId:string,reqBody:RecipeModel){
     return this.http.put(`${this.server_url}/recipes/${recipeId}`,reqBody,this.appendToken())
+  } 
+
+  // /recipes:delete request when admin  recicpe page loads
+  removeRecipeAPI(recipeId:string){
+    return this.http.delete(`${this.server_url}/recipes/${recipeId}`,this.appendToken())
   } 
 }
