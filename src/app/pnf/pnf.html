@@ -1,1 +1,10 @@
-<p>pnf works!</p>
+<div style="height: 100vh;" class="d-flex justify-content-center align-items-center flex-column">
+    <img src="https://www.scopycode.com/includes/images/blog/404_error_page_not_found.gif" alt="pnf">
+    <h1>Sorry! The page you are looking for is not available</h1>
+    @if(role == "admin"){
+        <a class="btn btn-success my-5" routerLink="/admin">Back To Home</a>
+    }@else{
+        <a class="btn btn-success my-5" routerLink="/">Back To Home</a>
+    }
+
+</div>

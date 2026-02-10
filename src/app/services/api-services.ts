@@ -6,7 +6,7 @@ import { RecipeModel } from '../admin/models/recipeModel';
   providedIn: 'root',
 })
 export class ApiServices {
-  server_url = "http://localhost:3000"
+  server_url = "https://cookpedia-server-zeem.onrender.com"
   http = inject(HttpClient)
 
   //get all recipes - home, recipes
@@ -119,4 +119,23 @@ export class ApiServices {
   removeRecipeAPI(recipeId:string){
     return this.http.delete(`${this.server_url}/recipes/${recipeId}`,this.appendToken())
   } 
+
+  getChartData(){
+    this.getAllDownloadRecipeAPI().subscribe((downloadListArray:any)=>{
+      let output:any = {}
+      downloadListArray.forEach((recipe:any)=>{
+        let cuisine = recipe.cuisine
+        let curCount = recipe.count
+        if(cuisine in output){
+          output[cuisine] +=curCount
+        }else{
+          output[cuisine] = curCount
+        }
+      })
+      const keys = Object.keys(output)
+      localStorage.setItem("labels",JSON.stringify(keys))
+      const data = Object.values(output)
+      localStorage.setItem("data", JSON.stringify(data))
+    })
+  }
 }

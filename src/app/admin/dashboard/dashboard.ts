@@ -42,6 +42,22 @@ export class Dashboard {
     ]
   };
 
+  constructor(){
+    if(localStorage.getItem("labels") && localStorage.getItem("data") ){
+      const labels = JSON.parse(localStorage.getItem("labels")|| "")
+      const data = JSON.parse(localStorage.getItem("data")|| "")
+      this.barChartData = {
+    labels,
+    datasets: [
+      {
+        label: 'Count',
+        data,
+      }
+    ]
+  };
+    }
+  }
+
   ngOnInit(){
     this.getUserCount()
     this.getRecipeCount()
